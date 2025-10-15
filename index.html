@@ -13,21 +13,23 @@
         .card { transition: transform 0.3s, box-shadow 0.3s; border: 2px solid transparent; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0, 255, 255, 0.15); }
         .card.selected { border-color: #0891B2; transform: translateY(-2px) scale(1.02); }
-        .char-image { width: 150px; height: 150px; margin: 0 auto 1rem; border-radius: 50%; border: 4px solid #4B5563; object-fit: cover; }
+        .char-image { width: 150px; height: 150px; margin: 0 auto 1rem; border-radius: 50%; border: 4px solid #4B5563; object-fit: cover; background-color: #2d3748; }
         .card.selected .char-image { border-color: #0891B2; }
         #hud { position: absolute; bottom: 20px; left: 20px; color: white; font-size: 20px; text-shadow: 2px 2px 4px #000000; z-index: 5; }
         #crosshair { position: absolute; top: 50%; left: 50%; width: 20px; height: 20px; border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%); z-index: 5; }
         #instructions { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; background-color: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px; z-index: 20; }
         #mobile-controls { position: fixed; bottom: 0; left: 0; width: 100%; height: 100%; z-index: 6; pointer-events: none;}
-        .joystick-base { position: absolute; bottom: 20px; left: 20px; width: 100px; height: 100px; background-color: rgba(255,255,255,0.2); border-radius: 50%; pointer-events: auto; }
-        .joystick-nub { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; background-color: rgba(255,255,255,0.4); border-radius: 50%; transform: translate(-50%, -50%); }
-        .action-button { position: absolute; bottom: 20px; width: 70px; height: 70px; background-color: rgba(255, 80, 80, 0.4); border: 2px solid rgba(255, 80, 80, 0.6); border-radius: 50%; pointer-events: auto; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 12px; }
-        #shoot-btn { right: 20px; }
-        #sprint-btn { right: 110px; bottom: 70px; width: 50px; height: 50px; background-color: rgba(80, 255, 80, 0.4); border-color: rgba(80, 255, 80, 0.6); }
+        .joystick-base { position: absolute; bottom: 20px; left: 20px; width: 120px; height: 120px; background-color: rgba(255,255,255,0.2); border-radius: 50%; pointer-events: auto; }
+        .joystick-nub { position: absolute; top: 50%; left: 50%; width: 60px; height: 60px; background-color: rgba(255,255,255,0.4); border-radius: 50%; transform: translate(-50%, -50%); }
+        .action-button { position: absolute; bottom: 20px; width: 80px; height: 80px; background-color: rgba(255,255,255, 0.2); border: 2px solid rgba(255,255,255, 0.4); border-radius: 50%; pointer-events: auto; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 14px; transition: transform 0.1s, background-color 0.1s; }
+        .action-button:active { transform: scale(0.95); background-color: rgba(255,255,255, 0.4); }
+        #shoot-btn { right: 20px; background-color: rgba(255, 80, 80, 0.4); border-color: rgba(255, 80, 80, 0.6); }
+        #sprint-btn { right: 120px; bottom: 80px; width: 60px; height: 60px; background-color: rgba(80, 255, 80, 0.4); border-color: rgba(80, 255, 80, 0.6); }
+        #sprint-btn.active { background-color: rgba(80, 255, 80, 0.7); transform: scale(0.95); }
         #look-area { position: absolute; top: 0; right: 0; width: 50%; height: 100%; pointer-events: auto; }
         #rotate-device-screen { z-index: 9999; }
         @media (orientation: landscape) { #rotate-device-screen { display: none !important; } }
-        @media (orientation: portrait) { #start-menu, #login-screen, #game-over-screen, #game-container, #hud, #mobile-controls, #crosshair, #instructions { display: none !important; } }
+        @media (orientation: portrait) { body > *:not(#rotate-device-screen) { display: none !important; } }
     </style>
 </head>
 <body>
@@ -64,9 +66,9 @@
                 <h1 class="text-5xl font-bold mb-2 text-cyan-300 animate-pulse text-center">3D WAR ZONE</h1>
                 <p class="text-xl mb-6 text-gray-300 text-center">Pilih Karakter</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div id="char-assault" class="card character-card bg-gray-800 p-4 rounded-lg cursor-pointer selected"><img src="https://placehold.co/150x150/2d3748/e2e8f0?text=Assault" alt="Assault" class="char-image"><h3 class="text-xl font-bold text-center">Assault</h3></div>
-                    <div id="char-sniper" class="card character-card bg-gray-800 p-4 rounded-lg cursor-pointer"><img src="https://placehold.co/150x150/2d3748/e2e8f0?text=Sniper" alt="Sniper" class="char-image"><h3 class="text-xl font-bold text-center">Sniper</h3></div>
-                    <div id="char-heavy" class="card character-card bg-gray-800 p-4 rounded-lg cursor-pointer"><img src="https://placehold.co/150x150/2d3748/e2e8f0?text=Heavy" alt="Heavy" class="char-image"><h3 class="text-xl font-bold text-center">Heavy</h3></div>
+                    <div id="char-assault" class="card character-card bg-gray-800 p-4 rounded-lg cursor-pointer selected"><img src="https://placehold.co/150x150/1a202c/e2e8f0?text=A" alt="Assault" class="char-image"><h3 class="text-xl font-bold text-center">Assault</h3></div>
+                    <div id="char-sniper" class="card character-card bg-gray-800 p-4 rounded-lg cursor-pointer"><img src="https://placehold.co/150x150/1a202c/e2e8f0?text=S" alt="Sniper" class="char-image"><h3 class="text-xl font-bold text-center">Sniper</h3></div>
+                    <div id="char-heavy" class="card character-card bg-gray-800 p-4 rounded-lg cursor-pointer"><img src="https://placehold.co/150x150/1a202c/e2e8f0?text=H" alt="Heavy" class="char-image"><h3 class="text-xl font-bold text-center">Heavy</h3></div>
                 </div>
             </div>
             <!-- Right Column: Arena, Leaderboard, Start -->
@@ -87,15 +89,20 @@
                     </div>
                 </div>
                 <div id="leaderboard" class="w-full bg-gray-900/50 p-4 rounded-lg"><h2 class="text-2xl font-semibold mb-2 text-center text-cyan-300">Papan Peringkat</h2><div id="leaderboard-list" class="space-y-1 text-sm"><p class="text-center text-gray-400">Memuat...</p></div></div>
-                <button id="start-game-btn" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-4 rounded-lg text-2xl transition duration-300 transform hover:scale-105">MULAI PERANG</button>
+                <button id="start-game-btn" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-4 rounded-lg text-2xl transition duration-300 transform hover:scale-105">MULAI LEVEL 1</button>
             </div>
         </div>
     </div>
 
-    <div id="game-over-screen" class="screen hidden"><div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center"><h1 class="text-7xl font-bold mb-4 text-red-500">GAME OVER</h1><p class="text-3xl mb-10 text-gray-300">Kamu telah dikalahkan.</p><button id="restart-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-5 px-10 rounded-lg text-3xl transition duration-300 transform hover:scale-110">KEMBALI KE MENU</button></div></div>
+    <div id="game-over-screen" class="screen hidden"><div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center"><h1 id="end-screen-title" class="text-7xl font-bold mb-4 text-red-500">GAME OVER</h1><p id="end-screen-subtitle" class="text-3xl mb-10 text-gray-300">Kamu telah dikalahkan.</p><button id="restart-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-5 px-10 rounded-lg text-3xl transition duration-300 transform hover:scale-110">KEMBALI KE MENU</button></div></div>
     
     <div id="game-container"></div>
-    <div id="hud" class="hidden"><div id="health-display"></div><div id="ammo-display"></div><div id="enemy-display"></div></div>
+    <div id="hud" class="hidden">
+        <div id="level-display">Level: 1</div>
+        <div id="health-display"></div>
+        <div id="ammo-display"></div>
+        <div id="enemy-display"></div>
+    </div>
     <div id="crosshair" class="hidden"></div>
     <div id="instructions" class="hidden">
         <p class="text-2xl font-bold mb-2">PERMAINAN DIJEDA</p>
@@ -122,7 +129,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, limit, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import * as THREE from 'three';
         import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
@@ -138,11 +145,13 @@
                     animationFrameId: null, weaponModel: null, snowParticles: null,
                     enemies: [], bullets: [], mapObjects: [], keys: {},
                     playerHealth: 100, currentAmmo: 30, maxAmmo: 30, totalEnemies: 10, remainingEnemies: 10,
+                    isShooting: false, lastShotTime: 0, fireRate: 150, // ms
+                    gameOver: false, isWin: false,
                     touchLook: { x: 0, y: 0, lastX: 0, lastY: 0, active: false }
                 };
             }
 
-            start(mapType, characterType) {
+            start(mapType, characterType, level = 1) {
                 this.state.scene = new THREE.Scene();
                 this.state.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
                 this.state.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -159,7 +168,14 @@
                     this.state.player = this.state.camera;
                 }
                 this.state.scene.add(this.state.player);
+                
+                this.state.totalEnemies = 10 + (level - 1) * 2;
+                const enemyHealth = 100 + (level - 1) * 20;
+                const enemySpeed = 5 + (level - 1) * 0.5;
+                const enemyFireRate = 0.02 + (level - 1) * 0.005;
+
                 this.resetPlayerState();
+                 document.getElementById('level-display').innerText = `Level: ${level}`;
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
                 this.state.scene.add(ambientLight);
@@ -174,7 +190,7 @@
                 this.state.camera.add(this.state.weaponModel);
 
                 this.createMap(mapType);
-                this.spawnEnemies(this.state.totalEnemies);
+                this.spawnEnemies(this.state.totalEnemies, enemyHealth, enemySpeed, enemyFireRate);
 
                 this.addGameEventListeners();
                 if (!isMobile) {
@@ -297,7 +313,7 @@
                 this.state.scene.add(this.state.snowParticles);
             }
 
-            spawnEnemies(count) {
+            spawnEnemies(count, health, speed, fireRate) {
                 for (let i = 0; i < count; i++) {
                     const enemyGroup = new THREE.Group();
                     const bodyMat = new THREE.MeshStandardMaterial({ color: 0x2d3748, roughness: 0.4, metalness: 0.9 });
@@ -332,7 +348,14 @@
                     leftLeg.position.set(-0.3, 0.75, 0);
                     rightLeg.position.set(0.3, 0.75, 0);
                     enemyGroup.add(leftArm, rightArm, leftLeg, rightLeg);
-                    enemyGroup.userData = { limbs: { leftArm, rightArm, leftLeg, rightLeg }, animationTime: Math.random() * Math.PI * 2, isMoving: false, health: 100 };
+                    enemyGroup.userData = { 
+                        limbs: { leftArm, rightArm, leftLeg, rightLeg }, 
+                        animationTime: Math.random() * Math.PI * 2, 
+                        isMoving: false, 
+                        health: health,
+                        speed: speed,
+                        fireRate: fireRate
+                    };
                     enemyGroup.position.set(Math.random() * 600 - 300, 0, Math.random() * 600 - 300);
                     this.state.enemies.push(enemyGroup);
                     this.state.scene.add(enemyGroup);
@@ -397,12 +420,22 @@
 
             animate() {
                 this.state.animationFrameId = requestAnimationFrame(() => this.animate());
+
+                if (this.state.gameOver) {
+                    this.endGameCallback(this.state.isWin, this.state.playerHealth);
+                    return;
+                }
+
                 const delta = Math.min(this.state.clock.getDelta(), 0.1);
                 
                 this.updatePlayer(delta);
                 this.updateBullets(delta);
                 this.updateEnemies(delta);
                 this.updateHUD();
+                
+                if (this.state.isShooting) {
+                    this.shootWithCooldown();
+                }
 
                 if (this.state.snowParticles) {
                     this.state.snowParticles.rotation.y += delta * 0.1;
@@ -469,9 +502,12 @@
             updateBullets(delta) {
                  for (let i = this.state.bullets.length - 1; i >= 0; i--) {
                     const bullet = this.state.bullets[i];
-                    if(!bullet || !bullet.mesh) continue;
+                    if (!bullet || !bullet.mesh) continue;
+
                     bullet.mesh.position.add(bullet.velocity.clone().multiplyScalar(delta));
                     bullet.life -= delta;
+
+                    let hit = false;
                     for (let j = this.state.enemies.length - 1; j >= 0; j--) {
                         const enemy = this.state.enemies[j];
                         if (bullet.mesh.position.distanceTo(enemy.position) < 2.5) { 
@@ -484,14 +520,21 @@
                                 this.state.scene.remove(enemy);
                                 this.state.enemies.splice(j, 1);
                                 this.state.remainingEnemies--;
-                                if(this.state.remainingEnemies <= 0) this.endGameCallback(true, this.state.playerHealth);
+                                if(this.state.remainingEnemies <= 0) {
+                                    this.state.gameOver = true;
+                                    this.state.isWin = true;
+                                }
                             }
                             this.state.scene.remove(bullet.mesh);
                             this.state.bullets.splice(i, 1);
+                            hit = true;
                             break; 
                         }
                     }
-                    if (bullet && bullet.life <= 0) {
+
+                    if (hit) continue;
+
+                    if (bullet.life <= 0) {
                         if(this.state.scene) this.state.scene.remove(bullet.mesh);
                         this.state.bullets.splice(i, 1);
                     }
@@ -507,13 +550,16 @@
                         enemy.userData.isMoving = true;
                         const direction = new THREE.Vector3().subVectors(this.state.player.position, enemy.position).normalize();
                         
-                        enemy.position.add(direction.clone().multiplyScalar(delta * 5));
+                        enemy.position.add(direction.clone().multiplyScalar(delta * enemy.userData.speed));
                         const targetQuaternion = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(this.state.player.position, enemy.position, enemy.up));
                         enemy.quaternion.slerp(targetQuaternion, 0.1);
 
-                        if (distanceToPlayer < 100 && Math.random() < 0.02) {
+                        if (distanceToPlayer < 100 && Math.random() < enemy.userData.fireRate) {
                             this.state.playerHealth -= 5;
-                            if(this.state.playerHealth <= 0) this.endGameCallback(false, 0);
+                            if(this.state.playerHealth <= 0) {
+                                this.state.gameOver = true;
+                                this.state.isWin = false;
+                            }
                         }
                     }
                     
@@ -533,6 +579,13 @@
                     leftLeg.lower.rotation.x = -kneeBend;
                     rightLeg.lower.rotation.x = -kneeBend;
                 });
+            }
+
+            shootWithCooldown() {
+                const now = performance.now();
+                if (now - this.state.lastShotTime < this.state.fireRate) return;
+                this.state.lastShotTime = now;
+                this.shoot();
             }
 
             shoot() {
@@ -567,13 +620,17 @@
                 } else {
                     this.onKeyDown = (e) => { this.state.keys[e.code] = true; };
                     this.onKeyUp = (e) => { this.state.keys[e.code] = false; };
-                    this.onMouseDown = (e) => { if (this.state.controls && this.state.controls.isLocked && this.state.currentAmmo > 0) this.shoot(); };
+                    this.onMouseDown = (e) => { this.state.isShooting = true; };
+                    this.onMouseUp = (e) => { this.state.isShooting = false; };
+
                     this.onLock = () => instructions.classList.add('hidden');
-                    this.onUnlock = () => { if (this.state.playerHealth > 0 && this.state.remainingEnemies > 0) instructions.classList.remove('hidden'); };
+                    this.onUnlock = () => { if (this.state.playerHealth > 0 && this.state.remainingEnemies > 0 && !this.state.gameOver) instructions.classList.remove('hidden'); };
                     
                     document.addEventListener('keydown', this.onKeyDown);
                     document.addEventListener('keyup', this.onKeyUp);
                     document.addEventListener('mousedown', this.onMouseDown);
+                    document.addEventListener('mouseup', this.onMouseUp);
+
                     if (this.state.controls) {
                         this.state.controls.addEventListener('lock', this.onLock);
                         this.state.controls.addEventListener('unlock', this.onUnlock);
@@ -588,6 +645,7 @@
                      document.removeEventListener('keydown', this.onKeyDown);
                      document.removeEventListener('keyup', this.onKeyUp);
                      document.removeEventListener('mousedown', this.onMouseDown);
+                     document.removeEventListener('mouseup', this.onMouseUp);
                      if (this.state.controls) {
                         this.state.controls.removeEventListener('lock', this.onLock);
                         this.state.controls.removeEventListener('unlock', this.onUnlock);
@@ -601,8 +659,9 @@
                 const shootBtn = document.getElementById('shoot-btn');
                 const sprintBtn = document.getElementById('sprint-btn');
                 
-                joystickBase.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+                joystickBase.addEventListener('touchstart', (e) => { e.stopPropagation(); e.preventDefault(); }, { passive: false });
                 joystickBase.addEventListener('touchmove', (e) => {
+                    e.stopPropagation();
                     e.preventDefault();
                     const touch = e.touches[0];
                     const rect = joystickBase.getBoundingClientRect();
@@ -619,18 +678,21 @@
                     this.state.keys['KeyD'] = dx > 15;
                 }, { passive: false });
 
-                joystickBase.addEventListener('touchend', () => {
+                joystickBase.addEventListener('touchend', (e) => {
+                    e.stopPropagation();
                     joystickNub.style.transform = 'translate(-25px, -25px)';
                     this.state.keys['KeyW'] = this.state.keys['KeyS'] = this.state.keys['KeyA'] = this.state.keys['KeyD'] = false;
                 });
                 
                 lookArea.addEventListener('touchstart', (e) => {
+                    e.stopPropagation();
                     const touch = e.touches[0];
                     this.state.touchLook.lastX = touch.clientX;
                     this.state.touchLook.lastY = touch.clientY;
                     this.state.touchLook.active = true;
                 });
                 lookArea.addEventListener('touchmove', (e) => {
+                    e.stopPropagation();
                     if (!this.state.touchLook.active) return;
                     const touch = e.touches[0];
                     this.state.touchLook.x = touch.clientX - this.state.touchLook.lastX;
@@ -638,19 +700,16 @@
                     this.state.touchLook.lastX = touch.clientX;
                     this.state.touchLook.lastY = touch.clientY;
                 });
-                lookArea.addEventListener('touchend', () => this.state.touchLook.active = false);
+                lookArea.addEventListener('touchend', (e) => { e.stopPropagation(); this.state.touchLook.active = false; });
 
-                let shootInterval = null;
-                shootBtn.addEventListener('touchstart', () => {
-                    if (!shootInterval) shootInterval = setInterval(() => this.shoot(), 100);
-                });
-                shootBtn.addEventListener('touchend', () => {
-                    clearInterval(shootInterval);
-                    shootInterval = null;
-                });
+                shootBtn.addEventListener('touchstart', (e) => { e.stopPropagation(); this.state.isShooting = true; });
+                shootBtn.addEventListener('touchend', (e) => { e.stopPropagation(); this.state.isShooting = false; });
 
-                sprintBtn.addEventListener('touchstart', () => this.state.keys['ShiftLeft'] = true);
-                sprintBtn.addEventListener('touchend', () => this.state.keys['ShiftLeft'] = false);
+                sprintBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.state.keys['ShiftLeft'] = !this.state.keys['ShiftLeft'];
+                    sprintBtn.classList.toggle('active');
+                });
             }
         }
 
@@ -662,8 +721,8 @@
             currentGame: null,
             selectedCharacter: 'Assault',
             selectedMap: 'forest',
-            previewAnimationId: null,
-
+            currentLevel: 1,
+            
             nodes: {
                 loginScreen: document.getElementById('login-screen'),
                 startMenu: document.getElementById('start-menu'),
@@ -676,6 +735,7 @@
                 playerId: document.getElementById('player-id'),
                 emailInput: document.getElementById('email-input'),
                 passwordInput: document.getElementById('password-input'),
+                startGameBtn: document.getElementById('start-game-btn'),
             },
 
             init() {
@@ -693,17 +753,18 @@
                 onAuthStateChanged(this.auth, user => this.onAuthStateChange(user));
             },
 
-            onAuthStateChange(user) {
+            async onAuthStateChange(user) {
                 if (user) {
                     this.nodes.playerId.innerText = user.email;
+                    // await this.loadProgress(user.uid); // Temporarily disabled for stability
+                    this.currentLevel = 1; // Start at level 1 for now
+                    this.nodes.startGameBtn.innerText = `MULAI LEVEL ${this.currentLevel}`;
                     this.nodes.loginScreen.classList.add('hidden');
                     this.nodes.startMenu.classList.remove('hidden');
                     this.fetchLeaderboard();
-                    // this.setupCharacterPreviews(); // Removed for stability
                 } else {
                     this.nodes.loginScreen.classList.remove('hidden');
                     this.nodes.startMenu.classList.add('hidden');
-                    if (this.previewAnimationId) cancelAnimationFrame(this.previewAnimationId);
                 }
             },
 
@@ -712,7 +773,7 @@
                 document.getElementById('register-btn').addEventListener('click', () => this.register());
                 document.getElementById('main-logout-btn').addEventListener('click', () => signOut(this.auth));
 
-                document.getElementById('start-game-btn').addEventListener('click', () => this.startGame());
+                this.nodes.startGameBtn.addEventListener('click', () => this.startGame());
                 document.getElementById('restart-btn').addEventListener('click', () => this.returnToMenu());
 
                 document.querySelectorAll('.character-card').forEach(card => card.addEventListener('click', (e) => {
@@ -750,24 +811,22 @@
             },
 
             startGame() {
-                if (this.previewAnimationId) cancelAnimationFrame(this.previewAnimationId);
                 this.nodes.startMenu.classList.add('hidden');
                 this.nodes.hud.classList.remove('hidden');
                 this.nodes.crosshair.classList.remove('hidden');
                 this.currentGame = new GameEngine((isWin, health) => this.handleEndGame(isWin, health));
-                this.currentGame.start(this.selectedMap, this.selectedCharacter);
+                this.currentGame.start(this.selectedMap, this.selectedCharacter, this.currentLevel);
             },
 
             returnToMenu() {
                 this.nodes.gameOverScreen.classList.add('hidden');
                 this.nodes.startMenu.classList.remove('hidden');
                 this.fetchLeaderboard();
-                // this.setupCharacterPreviews(); // Removed for stability
 
-                const gameOverText = this.nodes.gameOverScreen.querySelector('h1');
-                gameOverText.innerText = "GAME OVER";
-                gameOverText.classList.replace('text-green-500', 'text-red-500');
-                this.nodes.gameOverScreen.querySelector('p').innerText = "Kamu telah dikalahkan.";
+                const endScreenTitle = this.nodes.gameOverScreen.querySelector('#end-screen-title');
+                endScreenTitle.innerText = "GAME OVER";
+                endScreenTitle.classList.replace('text-green-500', 'text-red-500');
+                this.nodes.gameOverScreen.querySelector('#end-screen-subtitle').innerText = "Kamu telah dikalahkan.";
             },
 
             handleEndGame(isWin, finalHealth) {
@@ -780,10 +839,22 @@
                 ['hud', 'crosshair', 'instructions'].forEach(id => document.getElementById(id).classList.add('hidden'));
 
                 if (isWin) {
-                    const gameOverText = this.nodes.gameOverScreen.querySelector('h1');
-                    gameOverText.innerText = "KAMU MENANG!";
-                    gameOverText.classList.replace('text-red-500', 'text-green-500');
-                    this.nodes.gameOverScreen.querySelector('p').innerText = "Semua musuh telah dikalahkan. Skor tersimpan!";
+                     if (this.currentLevel < 10) {
+                        this.currentLevel++;
+                        // this.saveProgress(); // Temporarily disabled
+                        this.nodes.startGameBtn.innerText = `MULAI LEVEL ${this.currentLevel}`;
+                        const endScreenTitle = this.nodes.gameOverScreen.querySelector('#end-screen-title');
+                        endScreenTitle.innerText = `LEVEL ${this.currentLevel - 1} SELESAI!`;
+                        endScreenTitle.classList.replace('text-red-500', 'text-green-500');
+                        this.nodes.gameOverScreen.querySelector('#end-screen-subtitle').innerText = "Bersiap untuk level selanjutnya.";
+                        this.nodes.gameOverScreen.querySelector('#restart-btn').innerText = "LANJUT";
+                    } else {
+                        const endScreenTitle = this.nodes.gameOverScreen.querySelector('#end-screen-title');
+                        endScreenTitle.innerText = "SELAMAT!";
+                        endScreenTitle.classList.replace('text-red-500', 'text-green-500');
+                        this.nodes.gameOverScreen.querySelector('#end-screen-subtitle').innerText = "Kamu telah menyelesaikan semua level!";
+                         this.nodes.gameOverScreen.querySelector('#restart-btn').innerText = "KEMBALI KE MENU";
+                    }
                 }
                 this.nodes.gameOverScreen.classList.remove('hidden');
             },
@@ -803,7 +874,7 @@
                 if (!this.auth.currentUser) return;
                 const scoreData = {
                     userId: this.auth.currentUser.uid, userEmail: this.auth.currentUser.email,
-                    character: this.selectedCharacter, map: this.selectedMap, score: score,
+                    character: this.selectedCharacter, map: this.selectedMap, score: score, level: this.currentLevel,
                     createdAt: new Date()
                 };
                 try { await addDoc(collection(this.db, `artifacts/${this.appId}/public/data/scores`), scoreData); } 
