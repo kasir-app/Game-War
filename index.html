@@ -139,8 +139,9 @@
         const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
         class GameEngine {
-            constructor(endGameCallback) {
+            constructor(endGameCallback, sounds) {
                 this.endGameCallback = endGameCallback;
+                this.sounds = sounds;
                 this.state = {
                     scene: null, camera: null, renderer: null, controls: null, player: null, clock: null,
                     animationFrameId: null, weaponModel: null, snowParticles: null,
@@ -514,6 +515,8 @@
                         if (bullet.mesh.position.distanceTo(enemy.position) < 2.5) { 
                             enemy.userData.health -= 35;
                             
+                            if(this.sounds.hit) this.sounds.hit.triggerAttackRelease("C2", "0.1");
+                            
                             enemy.traverse(child => { if(child.isMesh) child.material.emissive.setHex(0xffffff) });
                             setTimeout(() => enemy.traverse(child => { if(child.isMesh) child.material.emissive.setHex(0x000000) }), 100);
 
@@ -590,6 +593,13 @@
             }
 
             shoot() {
+                if (this.state.currentAmmo <= 0) {
+                    if(this.sounds.empty) this.sounds.empty.start();
+                    return;
+                }
+                
+                if(this.sounds.gunshot) this.sounds.gunshot.triggerAttack();
+
                 this.state.currentAmmo--;
                 const bullet = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffff00 }));
                 const direction = new THREE.Vector3();
@@ -723,6 +733,7 @@
             selectedCharacter: 'Assault',
             selectedMap: 'forest',
             currentLevel: 1,
+            sounds: {},
             
             nodes: {
                 loginScreen: document.getElementById('login-screen'),
@@ -810,11 +821,13 @@
                 }
             },
 
-            startGame() {
+            async startGame() {
+                await Tone.start();
+                this.setupAudio();
                 this.nodes.startMenu.classList.add('hidden');
                 this.nodes.hud.classList.remove('hidden');
                 this.nodes.crosshair.classList.remove('hidden');
-                this.currentGame = new GameEngine((isWin, health) => this.handleEndGame(isWin, health));
+                this.currentGame = new GameEngine((isWin, health) => this.handleEndGame(isWin, health), this.sounds);
                 this.currentGame.start(this.selectedMap, this.selectedCharacter, this.currentLevel);
             },
 
@@ -827,6 +840,17 @@
                 endScreenTitle.innerText = "GAME OVER";
                 endScreenTitle.classList.replace('text-green-500', 'text-red-500');
                 this.nodes.gameOverScreen.querySelector('#end-screen-subtitle').innerText = "Kamu telah dikalahkan.";
+            },
+            
+            setupAudio() {
+                this.sounds.gunshot = new Tone.NoiseSynth({
+                    noise: { type: 'white' },
+                    envelope: { attack: 0.001, decay: 0.1, sustain: 0, release: 0.1 }
+                }).toDestination();
+                this.sounds.hit = new Tone.MembraneSynth({
+                    pitchDecay: 0.01, octaves: 2, envelope: { attack: 0.001, decay: 0.1, sustain: 0 }
+                }).toDestination();
+                this.sounds.empty = new Tone.Player("https://tonejs.github.io/audio/berklee/click.mp3").toDestination();
             },
 
             handleEndGame(isWin, finalHealth) {
